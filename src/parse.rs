@@ -146,6 +146,35 @@ fn read_node(reader: &mut Reader) -> Result<SExprItem, SExprError> {
     Ok(SExprItem::Node(name, items))
 }
 
+/// Parses a stream of S-expression items from a string slice.
+///
+/// The returned vector may contain top-level atoms, text values, or nodes.
+///
+/// # Errors
+///
+/// Returns [`SExprError`] when the input is malformed, contains invalid UTF-8 in
+/// a token, or ends unexpectedly.
+///
+/// # Examples
+///
+/// ```
+/// use sexpr_parse::{parse_sexpr_stream, SExprItem};
+///
+/// let parsed = parse_sexpr_stream(r#"foo "bar" (baz qux)"#)?;
+///
+/// assert_eq!(
+///     parsed,
+///     vec![
+///         SExprItem::Atom("foo".to_string()),
+///         SExprItem::Text("bar".to_string()),
+///         SExprItem::Node(
+///             "baz".to_string(),
+///             vec![SExprItem::Atom("qux".to_string())]
+///         )
+///     ]
+/// );
+/// # Ok::<(), sexpr_parse::SExprError>(())
+/// ```
 pub fn parse_sexpr_stream(input: &str) -> Result<Vec<SExprItem>, SExprError> {
     let mut reader = Reader::new(input);
     let mut out = Vec::new();

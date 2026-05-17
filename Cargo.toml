@@ -1,0 +1,11 @@
+[package]
+name = "sexpr_parse"
+description = "Parser for S-expressions"
+version = "1.0.0"
+edition = "2024"
+authors = ["cyruscook"]
+license = "BSD-3-Clause"
+keywords = ["sexpr", "s-expression"]
+
+[dependencies]
+thiserror = "2.0.17"
